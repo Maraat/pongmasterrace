@@ -1,0 +1,27 @@
+<ion-navbar>
+    <ion-title>Añade tu partido</ion-title>
+</ion-navbar>
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            Añade tu partido
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-item>
+                <ion-label>Player 1</ion-label>
+                <ion-input #player1 type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Player 2</ion-label>
+                <ion-input #player2 type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Resultado</ion-label>
+                <ion-input #p1score type="number"></ion-input><ion-input #p2score type="number"></ion-input>
+            </ion-item>
+            <button full (click)="addGame(player1.value, player2.value, p1score.value, p2score.value)">Aceptar</button>
+        </ion-card-content>
+
+    </ion-card>
+</ion-content>

@@ -1,0 +1,18 @@
+<ion-navbar>
+    <ion-title>PongMasterRace</ion-title>
+</ion-navbar>
+<ion-content [root]="homeRoot">
+    <ion-list>
+        <ion-list-header>
+            Últimos partidos
+        </ion-list-header>
+        <ion-item *ngFor="#game of games">
+            <h2>{{game.player1}} vs {{game.player2}}</h2>
+            <h2>{{game.p1Score}} - {{game.p2Score}}</h2>
+        </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (infinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <button fab fab-center fab-bottom [navPush]="addPage"><ion-icon name="add"></ion-icon></button>
+</ion-content>
