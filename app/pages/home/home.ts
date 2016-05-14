@@ -1,4 +1,4 @@
-import {Page} from 'ionic-angular';
+import {Page, Platform} from 'ionic-angular';
 import {Add} from '../add/add';
 
 @Page({
@@ -8,40 +8,50 @@ export class Home {
     homeRoot: any = Page;
     games: Array<Game>;
     addPage: any;
+    platform: Platform;
+    auth: any;
+    serverGames: any;
 
-    constructor() {
+    constructor(platform: Platform) {
         this.games = [];
         this.addPage = Add;
+        this.platform = platform;
+        this.initializeApp();    
+    }
 
-        var parent = this;       
-        var Firebase = require("firebase");
+    initializeApp() {
+        this.platform.ready().then(() => {
+            var parent = this;
+            var Firebase = require("firebase");
+            this.serverGames = new Firebase('https://blazing-heat-2153.firebaseio.com/').child('games');
 
-        var serverGames = new Firebase('https://blazing-heat-2153.firebaseio.com/').child('games');
-
-        serverGames.on('child_added', function (snapshot) {
-            var message = snapshot.val();
-            parent.games.push({
-                player1: message.player1,
-                player2: message.player2,
-                p1Score: message.p1Score,
-                p2Score: message.p2Score
+            this.serverGames.on('child_added', function (snapshot) {
+                var message = snapshot.val();
+                parent.games.push({
+                    player1: message.player1,
+                    player2: message.player2,
+                    p1Score: message.p1Score,
+                    p2Score: message.p2Score
+                });
             });
+            this.auth = this.serverGames.getAuth();
         });
+    }
 
-        var authData = serverGames.getAuth();
-        if (authData) {
-            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+    login() {
+        if (this.auth) {
+            console.log("User " + this.auth.uid + " is logged in with " + this.auth.provider);
         } else {
-            serverGames.authWithOAuthPopup("google", function (error, authData) {
+            var vm = this;
+            this.serverGames.authWithOAuthPopup("google", function (error, authData) {
                 if (error) {
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
+                    vm.auth = authData;
                 }
             });
         }
-
-        
     }
 }
 
