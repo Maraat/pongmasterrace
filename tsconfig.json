@@ -17,8 +17,5 @@
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false
-  },
-  "files": [
-    "require.d.ts"
-  ]
+  }
 }

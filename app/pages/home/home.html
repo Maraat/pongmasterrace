@@ -1,9 +1,9 @@
-<ion-navbar *navbar>
+<ion-toolbar primary *navbar>
     <button menuToggle>
         <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Pong Master Race</ion-title>
-</ion-navbar>
+</ion-toolbar>
 
 <ion-content [root]="homeRoot">
     <ion-list>
@@ -19,5 +19,7 @@
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <button fab fab-center fab-bottom [navPush]="addPage" *ngIf="auth"><ion-icon name="add"></ion-icon></button>
-    <button full *ngIf="!auth" (click)="login()">Google Login</button>
+    <ion-toolbar position="bottom" *ngIf="!auth" style="position: absolute">
+        <button full (click)="login()">Google Login</button>
+    </ion-toolbar>
 </ion-content>

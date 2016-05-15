@@ -10,7 +10,7 @@ export class Home {
     addPage: any;
     platform: Platform;
     auth: any;
-    serverGames: any;
+    server: any;
 
     constructor(platform: Platform) {
         this.games = [];
@@ -23,9 +23,9 @@ export class Home {
         this.platform.ready().then(() => {
             var parent = this;
             var Firebase = require("firebase");
-            this.serverGames = new Firebase('https://blazing-heat-2153.firebaseio.com/').child('games');
+            this.server = new Firebase('https://blazing-heat-2153.firebaseio.com/');
 
-            this.serverGames.on('child_added', function (snapshot) {
+            this.server.child('games').on('child_added', function (snapshot) {
                 var message = snapshot.val();
                 parent.games.push({
                     player1: message.player1,
@@ -34,7 +34,7 @@ export class Home {
                     p2Score: message.p2Score
                 });
             });
-            this.auth = this.serverGames.getAuth();
+            this.auth = this.server.getAuth();
         });
     }
 
@@ -43,12 +43,15 @@ export class Home {
             console.log("User " + this.auth.uid + " is logged in with " + this.auth.provider);
         } else {
             var vm = this;
-            this.serverGames.authWithOAuthPopup("google", function (error, authData) {
+            this.server.authWithOAuthPopup("google", function (error, authData) {
                 if (error) {
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     vm.auth = authData;
+                    vm.server.child('users/' + authData.uid).set({
+                        name: authData.google.displayName
+                    });
                 }
             });
         }
