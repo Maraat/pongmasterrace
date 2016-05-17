@@ -11,8 +11,8 @@
             Últimos partidos
         </ion-list-header>
         <ion-card padding *ngFor="#game of games">
-            <h2>{{game.player1}} vs {{game.player2}}</h2>
-            <h2>{{game.p1Score}} - {{game.p2Score}}</h2>
+            <h2 class="card-title">{{game.player1}} vs {{game.player2}}</h2>
+            <h2 class="card-score">{{game.p1Score}} - {{game.p2Score}}</h2>
         </ion-card>
     </ion-list>
     <ion-infinite-scroll (infinite)="doInfinite($event)">

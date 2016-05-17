@@ -27,6 +27,8 @@ export class Add {
             var message = snapshot.val();
             parent.users.push(message.name);
         });
+
+        this.player2 = 'Player2';
     }
 
     addGame(p1score, p2score) {

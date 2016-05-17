@@ -8,7 +8,7 @@ import {Home} from './pages/home/home';
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {
-    app: App;
+    app: any;
     platform: Platform;
     menu: MenuController;
     pages: any;

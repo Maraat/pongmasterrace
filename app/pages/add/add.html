@@ -9,13 +9,11 @@
 
         <ion-card-content>
             <ion-item>
-                <ion-label>Player 1</ion-label>
-                <ion-label>{{auth.google.displayName}}</ion-label>
+                <ion-label style="margin-left: 16px">{{auth.google.displayName}}</ion-label>
             </ion-item>
             <ion-item>
-                <ion-label>Player 2</ion-label>
-                <ion-select [(ngModel)]="player2" interface="action-sheet">
-                    <ion-option *ngFor="#user of users" value="{{user}}">{{user}}</ion-option>
+                <ion-select [(ngModel)]="player2" style="width: 100%; max-width: 100%">
+                    <ion-option *ngFor="#user of users">{{user}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
