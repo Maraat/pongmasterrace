@@ -9,16 +9,18 @@
 
         <ion-card-content>
             <ion-item>
-                <ion-label style="margin-left: 16px">{{user}}</ion-label>
+                <ion-label style="margin-left: 16px">{{user.name}}</ion-label>
             </ion-item>
             <ion-item>
                 <ion-select [(ngModel)]="player2" style="width: 100%; max-width: 100%">
-                    <ion-option *ngFor="#user of users">{{user}}</ion-option>
+                    <ion-option *ngFor="#user of users" value="{{user.key}}">{{user.name}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label>Resultado</ion-label>
-                <ion-input #p1score type="number"></ion-input><ion-input #p2score type="number"></ion-input>
+                <ion-input #p1score type="number"
+                  style="background-color: whitesmoke; border-right-style: inset;"></ion-input>
+                <ion-input #p2score type="number" style="background-color: whitesmoke"></ion-input>
             </ion-item>
             <button full (click)="addGame(p1score.value, p2score.value)">Aceptar</button>
         </ion-card-content>

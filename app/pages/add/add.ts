@@ -27,24 +27,27 @@ export class Add {
           storageBucket: "blazing-heat-2153.appspot.com",
         };
         this.firebase = require("firebase");
-        this.server = firebase.database().ref();
-        this.user = firebase.auth().currentUser.displayName;
+        this.user = firebase.auth().currentUser;
 
-        this.server.child('users').on('child_added', function (snapshot) {
+        firebase.database().ref('users').on('child_added', function (snapshot) {
             var message = snapshot.val();
-            parent.users.push(message.name);
+            if (message.uid === parent.user.uid) {
+              parent.user = message;
+            } else {
+              parent.users.push(message);
+            }
         });
-
-        this.player2 = 'Player2';
     }
 
     addGame(p1score, p2score) {
-        this.server.child('games').push({
-            player1: this.user,
+        var game = firebase.database().ref().child('games').push().key;
+        firebase.database().ref('games/' + game).set({
+            player1: this.user.key,
             player2: this.player2,
             p1Score: p1score,
             p2Score: p2score
         });
+
         this.nav.pop();
     }
 }

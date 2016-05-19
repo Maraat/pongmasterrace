@@ -33,15 +33,23 @@ export class Home {
             };
             this.firebase = require("firebase");
             firebase.initializeApp(config);
-            this.server = firebase.database().ref();
-            this.server.child('games').on('child_added', function (snapshot) {
+
+            firebase.database().ref('games').on('child_added', function (snapshot) {
                 var message = snapshot.val();
-                parent.games.push({
-                    player1: message.player1,
-                    player2: message.player2,
-                    p1Score: message.p1Score,
-                    p2Score: message.p2Score
+                firebase.database().ref('users').on('value', function(snapshot) {
+                  var users = snapshot.val();
+                  parent.games.push({
+                      player1: users[message.player1].name,
+                      player2: users[message.player2].name,
+                      p1Score: message.p1Score,
+                      p2Score: message.p2Score
+                  });
                 });
+            });
+
+            firebase.database().ref('games').on('child_changed', function (snapshot) {
+                var message = snapshot.val();
+                console.log(message);
             });
 
             firebase.auth().onAuthStateChanged(function(user) {
@@ -72,11 +80,14 @@ export class Home {
               text: 'Save',
               handler: data => {
                 var user = firebase.auth().currentUser;
+                var key = firebase.database().ref('users').push().key;
                 user.updateProfile({
                   displayName: data.name
                 });
-                vm.server.child('users/' + result.user.uid).set({
-                  name: data.name
+                firebase.database().ref('users/' + key).set({
+                  name: data.name,
+                  uid: result.user.uid,
+                  key: key
                 });
               }
             }
