@@ -80,14 +80,12 @@ export class Home {
               text: 'Save',
               handler: data => {
                 var user = firebase.auth().currentUser;
-                var key = firebase.database().ref('users').push().key;
                 user.updateProfile({
                   displayName: data.name
                 });
-                firebase.database().ref('users/' + key).set({
+                firebase.database().ref('users/' + result.user.uid).set({
                   name: data.name,
-                  uid: result.user.uid,
-                  key: key
+                  uid: result.user.uid
                 });
               }
             }

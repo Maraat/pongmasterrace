@@ -42,7 +42,7 @@ export class Add {
     addGame(p1score, p2score) {
         var game = firebase.database().ref().child('games').push().key;
         firebase.database().ref('games/' + game).set({
-            player1: this.user.key,
+            player1: this.user.uid,
             player2: this.player2,
             p1Score: p1score,
             p2Score: p2score
